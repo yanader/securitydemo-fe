@@ -22,7 +22,7 @@ const Login = () => {
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
-                setJwt(data.token)
+                setJwt(data.jwtToken)
                 setMessage("Login Successful");
             } else {
                 setMessage("Login Failed. Please check credentials");
@@ -37,9 +37,22 @@ const Login = () => {
     return (
         <div>
             <h2>Login</h2>
+            <form onSubmit={handleLogin}>
+                <div>
+                    <label>Username: </label>
+                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
+                </div>
+                <div>
+                    <label>Password: </label>
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            {message && <p>{message}</p>}
+            {jwt && <p>{jwt}</p>}
         </div>
     );
-
+    // https://youtu.be/Uc2LZFVxHoM?t=16873
 }
 
 export default Login;
