@@ -6,6 +6,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const [jwt, setJwt] = useState("");
+    const [profile, setProfile] = useState(null);
     
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -24,8 +25,33 @@ const Login = () => {
                 console.log(data);
                 setJwt(data.jwtToken)
                 setMessage("Login Successful");
+                fetchUserProfile(data.jwt)
             } else {
                 setMessage("Login Failed. Please check credentials");
+            }
+
+        } catch (error) {
+            console.log("Error: " + error);
+            setMessage("An error occured. Please try again")
+        }
+    }
+
+    const fetchUserProfile = async (token) => {
+        try {
+            const response = await fetch("http://localhost:8080/profile", {
+                method:"GET", 
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                },
+            }
+            );
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                setProfile(data)
+            } else {
+                setMessage("Failed to fetch the profile");
             }
 
         } catch (error) {
@@ -50,9 +76,17 @@ const Login = () => {
             </form>
             {message && <p>{message}</p>}
             {jwt && <p>{jwt}</p>}
+
+            {profile && (
+                <div>
+                    <h3>User Profile</h3>
+                    <p>User Name: {profile.username}</p>
+                    <p>Roles: {profile.roles.join(", ")}</p>
+                    <p>Message: {profile.message}</p>
+                </div>
+            )}
         </div>
     );
-    // https://youtu.be/Uc2LZFVxHoM?t=16873
 }
 
 export default Login;
