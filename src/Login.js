@@ -25,14 +25,14 @@ const Login = () => {
                 console.log(data);
                 setJwt(data.jwtToken)
                 setMessage("Login Successful");
-                fetchUserProfile(data.jwt)
+                fetchUserProfile(data.jwtToken)
             } else {
                 setMessage("Login Failed. Please check credentials");
             }
 
         } catch (error) {
             console.log("Error: " + error);
-            setMessage("An error occured. Please try again")
+            setMessage("(1)An error occured. Please try again")
         }
     }
 
@@ -45,7 +45,7 @@ const Login = () => {
                 },
             }
             );
-
+            
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
@@ -56,7 +56,7 @@ const Login = () => {
 
         } catch (error) {
             console.log("Error: " + error);
-            setMessage("An error occured. Please try again")
+            setMessage("(2)An error occured. Please try again")
         }
     }
 
@@ -76,6 +76,8 @@ const Login = () => {
             </form>
             {message && <p>{message}</p>}
             {jwt && <p>{jwt}</p>}
+
+            {/* <button type="submit" onClick={() => fetchUserProfile(jwt)}>Fetch Profile</button> */}
 
             {profile && (
                 <div>
