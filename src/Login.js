@@ -60,6 +60,14 @@ const Login = () => {
         }
     }
 
+    const handleLogout = () => {
+        setUsername("");
+        setPassword("");
+        setJwt("");
+        setProfile(null);
+        setMessage("You have been logged out");
+    }
+
     return (
         <div>
             {!profile ? (
@@ -80,6 +88,7 @@ const Login = () => {
                     <p>User Name: {profile.username}</p>
                     <p>Roles: {profile.roles.join(", ")}</p>
                     <p>Message: {profile.message}</p>
+                    <button onClick={handleLogout}>Logout</button>
                 </div>
             )}
             {message && <p>{message}</p>}
