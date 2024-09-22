@@ -49,7 +49,7 @@ const Login = () => {
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
-                setProfile(data)
+                setProfile(data);
             } else {
                 setMessage("Failed to fetch the profile");
             }
@@ -62,24 +62,19 @@ const Login = () => {
 
     return (
         <div>
-            <h2>Login</h2>
-            <form onSubmit={handleLogin}>
-                <div>
-                    <label>Username: </label>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
-                </div>
-                <div>
-                    <label>Password: </label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                </div>
-                <button type="submit">Login</button>
-            </form>
-            {message && <p>{message}</p>}
-            {jwt && <p>{jwt}</p>}
-
-            {/* <button type="submit" onClick={() => fetchUserProfile(jwt)}>Fetch Profile</button> */}
-
-            {profile && (
+            {!profile ? (
+                <form onSubmit={handleLogin}>
+                    <div>
+                        <label>Username: </label>
+                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
+                    </div>
+                    <div>
+                        <label>Password: </label>
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+            ) : (
                 <div>
                     <h3>User Profile</h3>
                     <p>User Name: {profile.username}</p>
@@ -87,6 +82,8 @@ const Login = () => {
                     <p>Message: {profile.message}</p>
                 </div>
             )}
+            {message && <p>{message}</p>}
+            {jwt && <p>{jwt}</p>}
         </div>
     );
 }
